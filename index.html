@@ -1,1 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+  <meta name="theme-color" content="#0b0b0b">
+  <title>Pocket Drums</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1 aria-label="Pocket Drums">🥁 Pocket Drums</h1>
+    <div class="controls-row">
+      <button id="kitBtn" class="btn" aria-pressed="false" aria-label="Toggle kit">Rock</button>
+      <label class="slider">Tempo
+        <input id="tempo" type="range" min="40" max="240" value="120" aria-label="Tempo">
+        <span id="tempoVal">120</span>
+      </label>
+      <button id="metroBtn" class="btn" aria-pressed="false" aria-label="Toggle metronome">Metronome</button>
+    </div>
+  </header>
 
+  <main>
+    <section class="grid" role="group" aria-label="Drum pads">
+      <button class="pad big" data-pad="kick" data-key="K">Kick</button>
+      <button class="pad big" data-pad="snare" data-key="S">Snare</button>
+      <button class="pad" data-pad="hatC" data-key="H">Hi-Hat<br><small>Closed</small></button>
+      <button class="pad" data-pad="hatO" data-key="O">Hi-Hat<br><small>Open</small></button>
+      <button class="pad" data-pad="hatP" data-key="P">Hi-Hat<br><small>Pedal</small></button>
+      <button class="pad" data-pad="tom1" data-key="1">Tom 1</button>
+      <button class="pad" data-pad="tom2" data-key="2">Tom 2</button>
+      <button class="pad" data-pad="tom3" data-key="3">Tom 3</button>
+      <button class="pad" data-pad="crash" data-key="C">Crash</button>
+      <button class="pad" data-pad="ride" data-key="R">Ride</button>
+    </section>
+
+    <section class="mixer">
+      <label>Master
+        <input type="range" min="0" max="1" step="0.01" id="masterGain" value="0.9">
+      </label>
+      <details>
+        <summary>Per-pad levels</summary>
+        <div class="mixer-grid" id="perPadMixer"></div>
+      </details>
+    </section>
+
+    <section class="rec">
+      <div class="latency">
+        <label>Latency offset (ms)
+          <input id="latency" type="number" min="-200" max="200" step="1" value="0">
+        </label>
+        <button id="saveLatency" class="btn">Save</button>
+        <span id="latencySaved"></span>
+      </div>
+      <div class="rec-controls">
+        <button id="recBtn" class="btn">● Record</button>
+        <button id="playBtn" class="btn" disabled>▶ Play</button>
+        <button id="dlBtn" class="btn" disabled>⇩ Download</button>
+        <button id="clearBtn" class="btn" disabled>✕ Clear</button>
+        <span id="recTimer">00:00</span>
+      </div>
+      <audio id="playback" controls style="display:none"></audio>
+    </section>
+  </main>
+
+  <footer>
+    <div id="pulse"></div>
+    <p class="hint">Tip: Long-press for accent • Keyboard: K S H O P 1 2 3 C R</p>
+  </footer>
+
+  <script src="app.js" type="module"></script>
+</body>
+</html>
