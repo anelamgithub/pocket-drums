@@ -2,74 +2,93 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-  <meta name="theme-color" content="#0b0b0b">
-  <title>Pocket Drums</title>
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="icon" href="icons/icon-192.png">
-  <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css">
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#5f4bff" />
+  <title>Type A Mom Glow-Up Planner</title>
+  <style>
+    :root { --bg:#f6f7fb; --card:#fff; --ink:#1e2240; --muted:#636a89; --brand:#5f4bff; --ok:#14b878; --warn:#ff9f43; }
+    *{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;background:var(--bg);color:var(--ink)}
+    .wrap{max-width:1100px;margin:0 auto;padding:20px}
+    .hero{background:linear-gradient(120deg,#5f4bff,#8b7bff);color:#fff;padding:22px;border-radius:16px;display:flex;justify-content:space-between;gap:16px;align-items:center;flex-wrap:wrap}
+    h1,h2,h3{margin:.1rem 0}.sub{opacity:.9;max-width:650px}
+    .grid{display:grid;gap:14px}.g3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+    .card{background:var(--card);padding:16px;border-radius:14px;box-shadow:0 2px 14px rgba(0,0,0,.06)}
+    .pillars .card{border-top:4px solid var(--brand)}
+    button,.btn{background:var(--brand);color:#fff;border:none;border-radius:10px;padding:10px 14px;font-weight:600;cursor:pointer}
+    button.ghost{background:#ece9ff;color:#3e33ad}
+    .switcher{display:flex;gap:8px;flex-wrap:wrap}
+    .switcher button.active{background:#251c7c}
+    .timeline .block{display:grid;grid-template-columns:120px 1fr auto;gap:12px;align-items:start;padding:10px 0;border-bottom:1px solid #eceef8}
+    .timeline .block:last-child{border-bottom:none}
+    .time{font-weight:700;color:#3e33ad}
+    .focus{font-weight:600}
+    .tasklist{margin:6px 0 0;padding-left:16px;color:var(--muted)}
+    .block.now{background:#f0edff;border-radius:10px;padding:10px}
+    .checks label{display:flex;gap:8px;align-items:flex-start;margin:8px 0;color:#333}
+    .checks input{margin-top:4px}
+    .stats{display:flex;gap:10px;flex-wrap:wrap}.chip{background:#edf7f2;color:#0e8456;padding:7px 11px;border-radius:999px;font-weight:700}
+    .rules li{margin:6px 0}.age{font-size:.9rem;color:var(--muted)}
+    .quote{font-style:italic;color:#40308f}
+  </style>
 </head>
 <body>
-  <header class="topbar">
-    <h1 aria-label="Pocket Drums">🥁 Pocket Drums</h1>
-    <div class="controls-row">
-      <button id="kitBtn" class="btn" aria-pressed="false" aria-label="Toggle kit">Rock</button>
-      <label class="slider">Tempo
-        <input id="tempo" type="range" min="40" max="240" value="120" aria-label="Tempo">
-        <span id="tempoVal">120</span>
-      </label>
-      <button id="metroBtn" class="btn" aria-pressed="false" aria-label="Toggle metronome">Metronome</button>
-    </div>
-  </header>
-
-  <main>
-    <section class="grid" role="group" aria-label="Drum pads">
-      <button class="pad big" data-pad="kick" data-key="K">Kick</button>
-      <button class="pad big" data-pad="snare" data-key="S">Snare</button>
-      <button class="pad" data-pad="hatC" data-key="H">Hi-Hat<br><small>Closed</small></button>
-      <button class="pad" data-pad="hatO" data-key="O">Hi-Hat<br><small>Open</small></button>
-      <button class="pad" data-pad="hatP" data-key="P">Hi-Hat<br><small>Pedal</small></button>
-      <button class="pad" data-pad="tom1" data-key="1">Tom 1</button>
-      <button class="pad" data-pad="tom2" data-key="2">Tom 2</button>
-      <button class="pad" data-pad="tom3" data-key="3">Tom 3</button>
-      <button class="pad" data-pad="crash" data-key="C">Crash</button>
-      <button class="pad" data-pad="ride" data-key="R">Ride</button>
-    </section>
-
-    <section class="mixer">
-      <label>Master
-        <input type="range" min="0" max="1" step="0.01" id="masterGain" value="0.9">
-      </label>
-      <details>
-        <summary>Per-pad levels</summary>
-        <div class="mixer-grid" id="perPadMixer"></div>
-      </details>
-    </section>
-
-    <section class="rec">
-      <div class="latency">
-        <label>Latency offset (ms)
-          <input id="latency" type="number" min="-200" max="200" step="1" value="0">
-        </label>
-        <button id="saveLatency" class="btn">Save</button>
-        <span id="latencySaved"></span>
+  <div class="wrap">
+    <section class="hero">
+      <div>
+        <h1>✨ Type A Mom Glow-Up Planner</h1>
+        <p class="sub">A structured, warm, realistic system. Progress over perfection: less reacting, more preparing.</p>
       </div>
-      <div class="rec-controls">
-        <button id="recBtn" class="btn">● Record</button>
-        <button id="playBtn" class="btn" disabled>▶ Play</button>
-        <button id="dlBtn" class="btn" disabled>⇩ Download</button>
-        <button id="clearBtn" class="btn" disabled>✕ Clear</button>
-        <span id="recTimer">00:00</span>
+      <div>
+        <p><strong id="todayProgress">0%</strong> complete today</p>
+        <p class="quote" id="motivation">"Steady leader, not chaotic reactor."</p>
       </div>
-      <audio id="playback" controls style="display:none"></audio>
     </section>
-  </main>
 
-  <footer>
-    <div id="pulse"></div>
-    <p class="hint">Tip: Long-press for accent • Keyboard: K S H O P 1 2 3 C R</p>
-  </footer>
+    <section class="pillars" style="margin-top:14px;">
+      <h2>6 Core Pillars</h2>
+      <div class="grid g3" id="pillarGrid"></div>
+    </section>
+
+    <section class="card" style="margin-top:14px;">
+      <h2>Routine Timeline</h2>
+      <div class="switcher" id="daySwitcher"></div>
+      <div class="timeline" id="timeline"></div>
+    </section>
+
+    <section class="grid g3" style="margin-top:14px;">
+      <article class="card checks">
+        <h3>Non-negotiable Home Checklist</h3>
+        <div id="homeChecks"></div>
+      </article>
+      <article class="card checks">
+        <h3>Personal Glow-Up Checklist</h3>
+        <div id="momChecks"></div>
+      </article>
+      <article class="card">
+        <h3>Child Success Framework</h3>
+        <p class="age"><strong>1-year-old:</strong> predictable meals, books, music, sensory play, nap routine, outdoor exposure.</p>
+        <p class="age"><strong>3-year-old:</strong> potty rhythm, cleanup habit, pretend play, pre-school skills, quiet time.</p>
+        <p class="age"><strong>9-year-old:</strong> calm school launch, homework/reading block, one chore, real conversation.</p>
+        <ul class="rules">
+          <li>We eat at the table.</li>
+          <li>We clean up before the next activity.</li>
+          <li>We speak respectfully.</li>
+          <li>Bedtime happens on time.</li>
+          <li>Mom is calm, not chaotic.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="card" style="margin-top:14px;">
+      <h3>Weekly Focus + Streak</h3>
+      <p>Theme day: <strong id="themeDay">Monday — Laundry + planning</strong></p>
+      <div class="stats">
+        <span class="chip" id="streakChip">🔥 Streak: 0 days</span>
+        <button id="completeDayBtn" class="btn">Mark today complete</button>
+        <button id="resetBtn" class="ghost">Reset all</button>
+      </div>
+    </section>
+  </div>
 
   <script src="app.js" type="module"></script>
 </body>
